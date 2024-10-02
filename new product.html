@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Template</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        form {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            font-size: 16px;
+        }
+        
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #218838;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        th, td {
+            text-align: left;
+        }
+
+
+        #searchForm {
+            margin-bottom: 20px;
+        }
+        
+        #searchQuery {
+            padding: 8px;
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        #searchBtn, #clearSearchBtn {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        #clearSearchBtn {
+            background-color: #6c757d;
+        }
+        
+        #searchBtn:hover {
+            background-color: #0056b3;
+        }
+        
+        #clearSearchBtn:hover {
+            background-color: #5a6268;
+        }
+
+
+        #logoutBtn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        #logoutBtn:hover {
+            background-color: #c82333;
+        }
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> Personnel File Reference</h1>
+
+<h2>Search Report</h2>
+<br>
+        <form id="searchForm">
+            <label for="searchQuery">Search by File Reference or Filename:</label>
+            <br><br>
+            <input type="text" id="searchQuery">
+            <button type="button" id="searchBtn">Search</button>
+            <button type="button" id="clearSearchBtn">Clear Search</button>
+        </form>
+
+        <form id="reportForm">
+            <label for="fileRef">File Reference:</label>
+            <input type="text" id="fileRef" required><br><br>
+
+            <label for="fileName">Filename:</label>
+            <input type="text" id="fileName" required><br><br>
+
+            <button type="submit">Add to Report</button>
+        </form>
+
+        
+
+        <center><h2> Personnel Table </h2></center>
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>File Reference</th>
+                    <th>Filename</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Dynamic rows will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h1>Report Management</h1>
+        
+        <!-- Add this Logout button -->
+        <button id="logoutBtn">Logout</button>
+
+        <!-- Your existing form and table content -->
+        <h2>Report Entry Form</h2>
+        <!-- Your existing form goes here -->
+
+        <h2>Report Table</h2>
+        <!-- Your existing table goes here -->
+
+    </div>
+
+    <script>
+
+
+// Selecting form and table body
+const form = document.getElementById('reportForm');
+const tableBody = document.getElementById('tableBody');
+const searchForm = document.getElementById('searchForm');
+const searchQuery = document.getElementById('searchQuery');
+const searchBtn = document.getElementById('searchBtn');
+const clearSearchBtn = document.getElementById('clearSearchBtn');
+
+// Load stored data from localStorage when the page loads
+document.addEventListener('DOMContentLoaded', loadStoredData);
+
+// Add event listener for form submission
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // Get values from inputs
+    const fileRef = document.getElementById('fileRef').value;
+    const fileName = document.getElementById('fileName').value;
+
+    // Create a new row and add it to the table
+    addRowToTable(fileRef, fileName);
+
+    // Save data to localStorage
+    saveToLocalStorage(fileRef, fileName);
+
+    // Clear form fields after adding
+    form.reset();
+});
+
+// Add event listener for search button
+searchBtn.addEventListener('click', function() {
+    searchReport(searchQuery.value.trim().toLowerCase());
+});
+
+// Add event listener for clear search button
+clearSearchBtn.addEventListener('click', function() {
+    searchQuery.value = '';
+    loadStoredData(); // Reload the original table data
+});
+
+// Function to save data to localStorage
+function saveToLocalStorage(fileRef, fileName) {
+    let reportData = JSON.parse(localStorage.getItem('reportData0')) || [];
+    reportData.push({ fileRef, fileName });
+    localStorage.setItem('reportData0', JSON.stringify(reportData));
+}
+
+// Function to load stored data from localStorage
+function loadStoredData() {
+    tableBody.innerHTML = ''; // Clear the table
+    let reportData = JSON.parse(localStorage.getItem('reportData0')) || [];
+    reportData.forEach(item => {
+        addRowToTable(item.fileRef, item.fileName);
+    });
+}
+
+// Function to add a row to the table
+function addRowToTable(fileRef, fileName) {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `<td>${fileRef}</td><td>${fileName}</td><td><button class="delete-btn">Delete</button></td>`;
+    tableBody.appendChild(newRow);
+
+    // Add event listener to the delete button
+    newRow.querySelector('.delete-btn').addEventListener('click', function() {
+        deleteRow(newRow, fileRef);
+    });
+}
+
+// Function to delete a row from the table and localStorage
+function deleteRow(row, fileRef) {
+    // Remove row from table
+    row.remove();
+
+    // Remove data from localStorage
+    let reportData = JSON.parse(localStorage.getItem('reportData0')) || [];
+    reportData = reportData.filter(item => item.fileRef !== fileRef);
+    localStorage.setItem('reportData0', JSON.stringify(reportData));
+}
+
+// Function to search the report
+function searchReport(query) {
+    // Load data from localStorage
+    let reportData = JSON.parse(localStorage.getItem('reportData0')) || [];
+    
+    // Filter the data based on the search query
+    const filteredData = reportData.filter(item => 
+        item.fileRef.toLowerCase().includes(query) || 
+        item.fileName.toLowerCase().includes(query)
+    );
+    
+    // Clear the table
+    tableBody.innerHTML = '';
+
+    // If there are results, display them
+    if (filteredData.length > 0) {
+        filteredData.forEach(item => {
+            addRowToTable(item.fileRef, item.fileName);
+        });
+    } else {
+        // If no results, display a message
+        tableBody.innerHTML = '<tr><td colspan="3">No results found</td></tr>';
+    }
+}
+
+
+// Select the logout button
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Add event listener for logout
+logoutBtn.addEventListener('click', function() {
+    // Clear any data if necessary (optional)
+ 
+
+    // Redirect to the logout page or login page
+    window.location.href = 'index.html'; // Replace 'login.html' with your desired page URL
+});
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
