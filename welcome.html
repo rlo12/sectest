@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        
+body{
+    padding:0px;
+    margin:0px;
+    background-color: rgb(237, 251, 252);
+}
+
+
+
+
+           Nav{
+            
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background-color:rgba(225, 231, 235, 0.671);
+                position: relative;
+                align-items: center;
+                height:469px;
+                top:30px;
+                border-radius:  8px ;
+                box-shadow: 0px 2px 4px 6px rgb(158, 171, 173);
+              }
+
+
+           
+           a {
+            line-height: 0px;
+            padding:20px 3px;
+            height: auto;
+            font-size: 20px;
+            display: flex;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+            text-transform: uppercase;
+            text-align: center;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            justify-content: center;
+align-items: center;
+          }
+
+          nav.animation {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            z-index: 0;
+           ;
+          }
+     
+          a:hover{
+background-color: rgb(133, 206, 216);;
+ transition: all .5s ease 0s;
+            border-radius: 8px
+         
+        
+            
+          }
+
+h1{
+text-align: center;
+
+}
+
+
+
+#logoutBtn {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#logoutBtn:hover {
+    background-color: #c82333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    
+
+    <h1>File Reference Catergory</h1>
+
+    <nav>
+      <a href="Accounts.html">Accounts</a>
+      <a href="Administration.html">Administration</a>
+      <a href="Corporation.html">Corporation</a>
+      <a href="Correspondance.html">Correspondance</a>
+      <a href="Electricity.html">Electricty Sector</a>
+      <a href="Energy.html">Energy</a>
+      <a href="Human Resources.html">Human Resource</a>
+      <a href="Other Sector.html">Other Sector</a>
+      <a href="new product.html">Personnel</a>
+      <a href="Regulatory.html">Regulatory</a>
+      <a href="SEB.html">SEB</a>
+      <a href="Transport Sector.html">Transport Sector</a>
+    
+
+
+
+      <div class="animation start-home"></div>
+
+
+      <div class="container">
+        <h1>Report Management</h1>
+        
+        <!-- Add this Logout button -->
+        <button id="logoutBtn">Logout</button>
+
+        <!-- Your existing form and table content -->
+        <h2>Report Entry Form</h2>
+        <!-- Your existing form goes here -->
+
+        <h2>Report Table</h2>
+        <!-- Your existing table goes here -->
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    </nav>
+    
+    <p>
+     
+    </p>
+
+
+<script>
+
+
+// Select the logout button
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Add event listener for logout
+logoutBtn.addEventListener('click', function() {
+    // Clear any data if necessary (optional)
+    localStorage.clear(); // Clear all local storage data (optional)
+
+    // Redirect to the logout page or login page
+    window.location.href = 'login.html'; // Replace 'login.html' with your desired page URL
+});
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
